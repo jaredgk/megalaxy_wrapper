@@ -1,0 +1,82 @@
+<tool id="megalaxy" name="MEGA for Galaxy" version="0.1">
+    <stdio>
+        <exit_code range="1:" level="fatal" />
+    </stdio>
+    <description>Galaxy interface for MEGA-CC</description>
+    <command>
+        <![CDATA[
+            python $__tool_directory__/mega_galaxy_input.py $data_input &&
+            $__tool_directory__/megacc -a $analysis_input -d mega_data.txt
+            #if $advf.calibration_input
+                -c $advf.calibration_input
+            #end if
+            #if $advf.groups_input
+                -g $advf.groups_input
+            #end if
+            #if $advf.tree_input
+                -t $advf.tree_input
+            #end if
+            #if $advo.format != "None"
+                -f $advo.format
+            #end if
+            #if $advo.gap_symbol
+                -gs $advo.gap_symbol
+            #end if
+            #if $advo.idbase_symbol
+                -is $advo.idbase_symbol
+            #end if
+            #if $advo.missing_symbol
+                -ms $advo.missing_symbol
+            #end if
+            -o MEGA/mega_galaxy_out 
+            
+        
+        ]]>
+    </command>
+
+    <inputs>
+        <param name="analysis_input" type="data" label="MEGA Analysis Options (.mao) File"/>
+        <param name="data_input" type="data" label="Data File"/>
+        <section name="advf" title="Optional Files" expanded="false">
+            <param name="calibration_input" type="data" label="Calibration file" help="Provides calibration
+            data for tree calling methods" optional="true"/>
+            <param name="groups_input" type="data" label="Groups file"
+            help="Organizes taxa into groups. Each line is a key-value pair of the form: taxonName=groupName" optional="true"/>
+            <param name="tree_input" type="data" label="Tree file" help="Required for some methods" optional="true"/>
+        </section>
+        <section name="advo" title="Optional Arguments" expanded="false">
+            <param name="concat" type="boolean" truevalue="-ca" falsevalue="" label="Concatenate Alignments"/>
+            <param name="format" type="select" label="Format (for sequence alignment only)">
+                <option value="None" selected="true">None</option>
+                <option value="MEGA">MEGA</option>
+                <option value="Fasta">Fasta</option>
+            </param>
+            <param name="gap_symbol" type="text" label="Gap Symbol in sequence data file" optional="true"/>
+            <param name="idbase_symbol" type="text" label="Character that represents identical bases in sequence data file" optional="true"/>
+            <param name="missing_symbol" type="text" label="Character that represents missing bases in sequence data file" optional="true"/>
+            <param name="pfc" type="float" min="0.0" max="1.0" label="Partition Frequency Cutoff: when boostrapping, will output partition frequencies that are over given frequency" optional="true"/>
+        </section>
+    </inputs>
+    <outputs>
+        <data name="outputs" format="txt">
+            <discover_datasets pattern="__designation__" directory="MEGA" visible="true" format="txt"/>
+        </data>
+    </outputs>
+    <help>
+    <![CDATA[
+        Use of MEGA requires two files, a MEGA Analysis Options (.mao) file and a file with data for analysis,
+        which may be one of many, including FASTA files. The MAO file must be generated prior to use of 
+        MEGA. This file can be made with the MEGA prototyper, available from the `MEGA site`_. 
+    
+        .. _MEGA site: https://megasoftware.net
+    ]]>
+    </help>
+    <tests>
+        <test>
+            <param name="analysis_input" value="infer_NJ_nucleotine.mao"/>
+            <param name="data_input" value="Drosophilia_Adh.meg"/>
+            <assert_stdout has_text="Analysis Complete"/>
+            <assert_stdout has_text="MEGA-CC"/>
+        </test>
+    </tests>
+</tool>
