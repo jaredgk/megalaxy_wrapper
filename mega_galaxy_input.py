@@ -11,6 +11,7 @@ def check_data_format(fn):
         return 'fasta'
     if l[0] == '(':
         return 'nwk'
+    raise Exception("Data File format could not be determined")
 
 data_name = str(sys.argv[1])
 data_mod_name = 'mega_data.'+check_data_format(data_name)
