@@ -10,7 +10,7 @@ Any time either the MEGA-CC binary is updated or the wrapper is changed, the too
 
 ### Developing Locally
 
-Follow steps outlined [here.](https://galaxyproject.org/admin/tools/add-tool-tutorial/). In summary, the MEGA-CC binary, tool wrapper, and python filetype ID script need to be placed in a subfolder in Galaxy's tools directory, then the config/tool_conf.xml file in the Galaxy instance needs to be updated to see the tool/wrapper. 
+Follow steps outlined [here.](https://galaxyproject.org/admin/tools/add-tool-tutorial/) In summary, the MEGA-CC binary, tool wrapper, and python filetype ID script need to be placed in a subfolder in Galaxy's tools directory, then the config/tool_conf.xml file in the Galaxy instance needs to be updated to see the tool/wrapper. 
 
 ### Additional notes
 
