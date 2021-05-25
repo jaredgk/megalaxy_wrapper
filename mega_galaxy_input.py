@@ -5,6 +5,8 @@ import os
 def check_data_format(fn):
     f = open(fn,'r')
     l = f.readline()
+    while len(l) > 0 and l[0] == ';':
+        l = f.readline()
     if l[0:5] == '#mega':
         return 'meg'
     if l[0] == '>':
